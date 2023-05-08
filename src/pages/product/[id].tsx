@@ -65,12 +65,12 @@ export default function Product({ product }: ProductProps) {
           <h1>{product.name}</h1>
           <span>{product.price}</span>
 
-          <p>{product.price}</p>
+          <p>{product.description}</p>
           <button
             disabled={isCreatingCheckoutSession}
             onClick={handleBuyProduct}
           >
-            Comprar agora
+            Adicionar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
