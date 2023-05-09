@@ -48,20 +48,17 @@ export const Menu = styled('div', {
   height: '100vh',
   background: '$gray800',
   right: 0,
-  scrollbarWidth: 'none',
+  overflow: 'hidden',
 
   '&.show': {
-    transform: 'translateX(0%)',
-    transitionDuration: '2000ms',
-    overflowX: 'hidden',
+    transition: 'translateX(100%) all 1s ease-out',
+    transitionDuration: '1500ms',
     width: 480,
   },
 
   '&.hidden': {
-    transform: 'translateX(100%)',
-    transitionDuration: '2000ms',
-    overflowX: 'hidden',
-    width: 480,
-    display: 'none',
+    transition: 'translateX(0%) all 1s ease-out',
+    transitionDuration: '750ms',
+    width: 0,
   },
 })
