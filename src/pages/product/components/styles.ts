@@ -1,7 +1,7 @@
 import { styled } from '@/styles'
 
 export const ContainerSidebar = styled('div', {
-  width: '100%',
+  width: 480,
   height: '100vh',
   position: 'absolute',
   background: '$gray800',
