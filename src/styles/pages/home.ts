@@ -26,33 +26,21 @@ export const Product = styled('div', {
 
   footer: {
     position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
     bottom: '0.25rem',
     left: '0.25rem',
     right: '0.25rem',
     padding: '2rem',
-
     borderRadius: 6,
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
 
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
 
     transform: 'translateY(100%)',
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
-
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100',
-    },
-
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
-    },
   },
 
   '&:hover': {
@@ -60,5 +48,34 @@ export const Product = styled('div', {
       transform: 'translateY(0%)',
       opacity: 1,
     },
+  },
+})
+
+export const InfoProduct = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+
+  p: {
+    fontSize: '$lg',
+    color: '$gray100',
+  },
+
+  span: {
+    fontSize: '$xl',
+    fontWeight: 'bold',
+    color: '$green300',
+  },
+})
+
+export const Bag = styled('button', {
+  all: 'unset',
+  cursor: 'pointer',
+  padding: '.75rem',
+  borderRadius: '6px',
+  background: '#00875f',
+
+  svg: {
+    color: '#fff',
   },
 })

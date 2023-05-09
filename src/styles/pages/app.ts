@@ -1,4 +1,4 @@
-import { keyframes, styled } from '..'
+import { styled } from '..'
 
 export const Container = styled('div', {
   display: 'flex',
@@ -43,38 +43,25 @@ export const Header = styled('header', {
   },
 })
 
-const showSideBar = keyframes({
-  from: {
-    width: 0,
-  },
-  to: {
-    width: 400,
-  },
-})
-
-const hiddenSideBar = keyframes({
-  from: {
-    width: 400,
-  },
-  to: {
-    width: 0,
-  },
-})
-
 export const Menu = styled('div', {
   position: 'absolute',
-  width: 0,
   height: '100vh',
   background: '$gray800',
   right: 0,
+  scrollbarWidth: 'none',
 
   '&.show': {
-    width: 400,
-    animation: `${showSideBar} 1000ms`,
+    transform: 'translateX(0%)',
+    transitionDuration: '2000ms',
+    overflowX: 'hidden',
+    width: 480,
   },
 
   '&.hidden': {
-    width: 0,
-    animation: `${hiddenSideBar} 700ms`,
+    transform: 'translateX(100%)',
+    transitionDuration: '2000ms',
+    overflowX: 'hidden',
+    width: 480,
+    display: 'none',
   },
 })

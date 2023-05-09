@@ -1,4 +1,4 @@
-import { HomeContainer, Product } from '@/styles/pages/home'
+import { Bag, HomeContainer, InfoProduct, Product } from '@/styles/pages/home'
 import Head from 'next/head'
 import Image from 'next/image'
 
@@ -9,6 +9,7 @@ import { GetStaticProps } from 'next'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
 import Link from 'next/link'
+import { Handbag } from '@phosphor-icons/react'
 
 interface HomeProps {
   products: {
@@ -44,8 +45,13 @@ export default function Home({ products }: HomeProps) {
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
 
                 <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <InfoProduct>
+                    <p>{product.name}</p>
+                    <span>{product.price}</span>
+                  </InfoProduct>
+                  <Bag>
+                    <Handbag size={32} weight="bold" />
+                  </Bag>
                 </footer>
               </Product>
             </Link>
