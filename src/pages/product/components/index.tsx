@@ -1,5 +1,12 @@
 import Image from 'next/image'
-import { ContainerSidebar, ProductCart } from './styles'
+import {
+  AmountCart,
+  ConfirmProductCart,
+  ContainerSidebar,
+  InfoCart,
+  ProductCart,
+  TotalCart,
+} from './styles'
 
 import camisa from '../../../assets/1.png'
 import { X } from '@phosphor-icons/react'
@@ -25,6 +32,17 @@ export const SideBar = ({ fn }: SideBarProps) => {
           <button>Remover</button>
         </div>
       </ProductCart>
+      <InfoCart>
+        <AmountCart>
+          <p>Quantidade</p>
+          <span>3 itens</span>
+        </AmountCart>
+        <TotalCart>
+          <p>Valor total</p>
+          <span>R$ 270,00</span>
+        </TotalCart>
+        <ConfirmProductCart>Finalizar Comprar</ConfirmProductCart>
+      </InfoCart>
     </ContainerSidebar>
   )
 }

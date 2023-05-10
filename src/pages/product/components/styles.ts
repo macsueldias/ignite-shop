@@ -3,12 +3,15 @@ import { styled } from '@/styles'
 export const ContainerSidebar = styled('div', {
   width: 480,
   height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
   position: 'absolute',
   background: '$gray800',
 
-  button: {
+  '& > button': {
     all: 'unset',
     cursor: 'pointer',
+    display: 'flex',
     background: 'transparent',
     right: 0,
     margin: '1.75rem 1.75rem 1.75rem auto',
@@ -26,6 +29,7 @@ export const ContainerSidebar = styled('div', {
 
 export const ProductCart = styled('div', {
   display: 'flex',
+  flex: 1,
   gap: '1.25rem',
   margin: '2rem 3rem',
 
@@ -65,4 +69,43 @@ export const ProductCart = styled('div', {
       marginTop: '0.5rem',
     },
   },
+})
+
+export const InfoCart = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  margin: '2rem 3rem',
+})
+
+export const AmountCart = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'baseline',
+})
+
+export const TotalCart = styled('div', {
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+
+  fontWeight: 'bold',
+
+  span: {
+    fontSize: '1.5rem',
+  },
+})
+
+export const ConfirmProductCart = styled('button', {
+  width: '100%',
+  height: '4rem',
+  marginBlock: '4rem 2rem',
+  backgroundColor: '$green500',
+  color: '$white',
+  border: 0,
+  borderRadius: 8,
+  fontWeight: 'bold',
+  fontSize: '1.125rem',
+  lineHeight: '1rem',
+  cursor: 'pointer',
 })

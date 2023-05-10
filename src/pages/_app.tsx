@@ -7,11 +7,12 @@ import logoImg from '../assets/logo.svg'
 import { Handbag } from '@phosphor-icons/react'
 import { SideBar } from './product/components'
 import { useState } from 'react'
+import { CartProvider } from '@/context/CartContext'
 
 globalStyles()
 
 function App({ Component, pageProps }: AppProps) {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
   function handleToggleCart() {
     const sectionSideBar = document.getElementById('menu')
     if (show) {
@@ -25,21 +26,23 @@ function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <Container>
-      <Header>
-        <img src={logoImg.src} alt="" />
-        <button onClick={handleToggleCart}>
-          <span>3</span>
-          <Handbag size={32} weight="bold" />
-        </button>
-      </Header>
+    <CartProvider>
+      <Container>
+        <Header>
+          <img src={logoImg.src} alt="" />
+          <button onClick={handleToggleCart}>
+            <span>3</span>
+            <Handbag size={32} weight="bold" />
+          </button>
+        </Header>
 
-      <Component {...pageProps} />
+        <Component {...pageProps} />
 
-      <Menu id="menu" className="hidden">
-        <SideBar fn={handleToggleCart} />
-      </Menu>
-    </Container>
+        <Menu id="menu" className="hidden">
+          <SideBar fn={handleToggleCart} />
+        </Menu>
+      </Container>
+    </CartProvider>
   )
 }
 
