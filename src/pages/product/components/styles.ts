@@ -27,6 +27,32 @@ export const ContainerSidebar = styled('div', {
   },
 })
 
+export const ProductsCart = styled('div', {
+  overflowY: 'scroll',
+
+  /* width */
+  '&::-webkit-scrollbar': {
+    width: 8,
+  },
+
+  /* Track */
+  '&::-webkit-scrollbar-track': {
+    background: '#bbb',
+    borderRadius: 3,
+  },
+
+  /* Handle */
+  '&::-webkit-scrollbar-thumb': {
+    background: '#7465d4',
+    borderRadius: 3,
+  },
+
+  /* Handle on hover */
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: '#5d51a9',
+  },
+})
+
 export const ProductCart = styled('div', {
   display: 'flex',
   flex: 1,

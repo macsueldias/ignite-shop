@@ -4,6 +4,7 @@ interface ProductProps {
   id: string
   name: string
   imageUrl: string
+  amount: number
   price: string
   defaultPriceId: string
 }
@@ -33,8 +34,15 @@ export function CartProvider({ children }: CardProviderProps) {
   )
 
   const addProductCart = (product: ProductProps) => {
-    console.log('ok')
-    setCart((state: ProductProps[]) => [...state, product])
+    const containsProductInCart = cart.some((item) => (item.id = product.id))
+    if (containsProductInCart) {
+      const updateList = cart.map((product) => {
+        return { ...product, amount: product.amount + 1 }
+      })
+      setCart(updateList)
+    } else {
+      setCart((state: ProductProps[]) => [...state, { ...product, amount: 1 }])
+    }
   }
 
   const removeProductCart = (id: string) => {
@@ -42,7 +50,10 @@ export function CartProvider({ children }: CardProviderProps) {
   }
 
   useEffect(() => {
-    const amountProducts = cart.reduce((acc, currentValue) => 1 + acc, 0)
+    const amountProducts = cart.reduce(
+      (acc, currentValue) => currentValue.amount + acc,
+      0,
+    )
 
     const valueProducts = cart.reduce(
       (acc, currentValue) => Number(currentValue.price) * 1 + acc,

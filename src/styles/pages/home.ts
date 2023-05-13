@@ -56,6 +56,10 @@ export const InfoProduct = styled('div', {
   flexDirection: 'column',
   justifyContent: 'flex-start',
 
+  a: {
+    textDecoration: 'none',
+  },
+
   p: {
     fontSize: '$lg',
     color: '$gray100',

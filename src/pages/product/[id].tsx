@@ -13,6 +13,7 @@ import {
   ProductContainer,
   ProductDetails,
 } from '@/styles/pages/product'
+import { useCart } from '@/context/CartContext'
 
 interface ProductProps {
   product: {
@@ -26,6 +27,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const { cart } = useCart()
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
@@ -34,7 +36,7 @@ export default function Product({ product }: ProductProps) {
       setIsCreatingCheckoutSession(true)
 
       const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
+        priceId: cart,
       })
 
       const { checkoutUrl } = response.data
@@ -59,7 +61,12 @@ export default function Product({ product }: ProductProps) {
       </Head>
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} alt="" width={520} height={480} />
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            width={520}
+            height={480}
+          />
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
