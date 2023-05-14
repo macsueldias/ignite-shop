@@ -12,11 +12,17 @@ export const ContainerSidebar = styled('div', {
     all: 'unset',
     cursor: 'pointer',
     display: 'flex',
-    background: 'transparent',
+    background: '#80b6aa',
     right: 0,
+    padding: '3px 6px',
+    borderRadius: 4,
     margin: '1.75rem 1.75rem 1.75rem auto',
     width: '1.25rem',
     color: '$gray100',
+  },
+
+  '& > button:>focus': {
+    background: 'red',
   },
 
   h3: {

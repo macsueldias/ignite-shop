@@ -34,10 +34,13 @@ export function CartProvider({ children }: CardProviderProps) {
   )
 
   const addProductCart = (product: ProductProps) => {
-    const containsProductInCart = cart.some((item) => (item.id = product.id))
+    const containsProductInCart = cart.some((item) => item.id === product.id)
     if (containsProductInCart) {
-      const updateList = cart.map((product) => {
-        return { ...product, amount: product.amount + 1 }
+      const updateList = cart.map((item) => {
+        if (item.id === product.id) {
+          return { ...product, amount: item.amount + 1 }
+        }
+        return item
       })
       setCart(updateList)
     } else {
@@ -46,7 +49,7 @@ export function CartProvider({ children }: CardProviderProps) {
   }
 
   const removeProductCart = (id: string) => {
-    setCart(cart.filter((item) => item.id === id))
+    setCart(cart.filter((item) => item.id !== id))
   }
 
   useEffect(() => {
@@ -56,9 +59,15 @@ export function CartProvider({ children }: CardProviderProps) {
     )
 
     const valueProducts = cart.reduce(
-      (acc, currentValue) => Number(currentValue.price) * 1 + acc,
+      (acc, currentValue) => {
+        const formatPrice =
+          Number(currentValue.price.replace(/[^0-9]/g, '')) / 100
+        return currentValue.amount * formatPrice + acc
+      },
+
       0,
     )
+
     setTotalCart({ amountProduct: amountProducts, total: valueProducts })
   }, [cart])
 

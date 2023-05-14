@@ -4,7 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Stripe from 'stripe'
 
-import { SuccessContainer, ImageContainer } from '@/styles/pages/success'
+import {
+  SuccessContainer,
+  ImageContainer,
+  ImageItem,
+} from '@/styles/pages/success'
 import { stripe } from '@/lib/stripe'
 
 interface SuccessProps {
@@ -12,10 +16,19 @@ interface SuccessProps {
   product: {
     name: string
     imageUrl: string
-  }
+    amount: number
+  }[]
 }
 
 export default function Success({ customerName, product }: SuccessProps) {
+  const amountProducts = product.reduce((acc, currentValue) => {
+    return currentValue.amount + acc
+  }, 0)
+  const amountProductsOrNameProduct =
+    amountProducts > 1
+      ? ` suas ${amountProducts} Camisetas`
+      : `Camiseta ${product[0].name}`
+
   return (
     <>
       <Head>
@@ -24,14 +37,19 @@ export default function Success({ customerName, product }: SuccessProps) {
       </Head>
       <SuccessContainer>
         <h1>Compra efetuada!</h1>
-
         <ImageContainer>
-          <Image src={product.imageUrl} width={120} height={110} alt="" />
+          {product.map((item) => {
+            return (
+              <ImageItem key={item.name}>
+                <Image src={item.imageUrl} width={120} height={110} alt="" />
+              </ImageItem>
+            )
+          })}
         </ImageContainer>
-
         <p>
-          Uhuul <strong>{customerName}</strong>, sua Camiseta{' '}
-          <strong>{product.name}</strong> já está a caminho da sua casa.{' '}
+          Uhuul <strong>{customerName}</strong>,
+          <strong>{amountProductsOrNameProduct}</strong> já está a caminho da
+          sua casa.{' '}
         </p>
         <Link href="/">Voltar ao catálogo</Link>
       </SuccessContainer>
@@ -40,7 +58,9 @@ export default function Success({ customerName, product }: SuccessProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  if (!query.sessionId) {
+  const sessionId = String(query.session_id)
+
+  if (!query.session_id) {
     return {
       redirect: {
         destination: '/',
@@ -48,22 +68,25 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       },
     }
   }
-  const sessionId = String(query.session_id)
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['line_items', 'line_items.data.price.product'],
   })
 
   const customerName = session.customer_details.name
-  const product = session.line_items.data[0].price.product as Stripe.Product
+  const products = session.line_items.data.map((item) => {
+    const product = item.price.product as Stripe.Product
+    return {
+      name: product.name,
+      imageUrl: product.images[0],
+      amount: item.quantity,
+    }
+  })
 
   return {
     props: {
       customerName,
-      product: {
-        name: product.name,
-        imageUrl: product.images[0],
-      },
+      product: [...products],
     },
   }
 }

@@ -1,4 +1,11 @@
-import { Bag, HomeContainer, InfoProduct, Product } from '@/styles/pages/home'
+import {
+  Bag,
+  HomeContainer,
+  InfoProduct,
+  Product,
+  TooltipArrow,
+  TooltipContent,
+} from '@/styles/pages/home'
 import Head from 'next/head'
 import Image from 'next/image'
 
@@ -11,6 +18,8 @@ import Stripe from 'stripe'
 import Link from 'next/link'
 import { Handbag } from '@phosphor-icons/react'
 import { useCart } from '@/context/CartContext'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { ToastContainer, toast } from 'react-toastify'
 
 interface ProductProps {
   id: string
@@ -38,11 +47,15 @@ export default function Home({ products }: HomeProps) {
   async function handleAddProductCart(product: ProductProps) {
     try {
       addProductCart(product)
-    } catch (error) {}
+      toast.success('Produto Adicionado com Sucesso!')
+    } catch (error) {
+      toast.error('Ops... Erro ao adicionar produto na sacola')
+    }
   }
 
   return (
     <>
+      <ToastContainer />
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
@@ -59,9 +72,21 @@ export default function Home({ products }: HomeProps) {
                     <span>{product.price}</span>
                   </Link>
                 </InfoProduct>
-                <Bag onClick={() => handleAddProductCart(product)}>
-                  <Handbag size={32} weight="bold" />
-                </Bag>
+                <Tooltip.Provider>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger asChild>
+                      <Bag onClick={() => handleAddProductCart(product)}>
+                        <Handbag size={32} weight="bold" />
+                      </Bag>
+                    </Tooltip.Trigger>
+                    <Tooltip.Portal>
+                      <TooltipContent>
+                        Adicionar a Sacola
+                        <TooltipArrow />
+                      </TooltipContent>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+                </Tooltip.Provider>
               </footer>
             </Product>
           )

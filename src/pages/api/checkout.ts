@@ -6,6 +6,7 @@ type Product = {
   id: string
   name: string
   imageUrl: string
+  amount: number
   price: string
   defaultPriceId: string
 }
@@ -32,7 +33,7 @@ export default async function handler(
   const cancelUrl = `${process.env.NEXT_URL}/`
 
   const products = cart.map((product) => {
-    return { price: product.defaultPriceId, quantity: 1 }
+    return { price: product.defaultPriceId, quantity: product.amount }
   })
 
   const checkoutSession = await stripe.checkout.sessions.create({
@@ -41,6 +42,8 @@ export default async function handler(
     mode: 'payment',
     line_items: products,
   })
+
+  console.log(checkoutSession.url)
 
   return res.status(201).json({
     checkoutUrl: checkoutSession.url,

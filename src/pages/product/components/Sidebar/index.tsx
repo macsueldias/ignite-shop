@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { v4 as uuidv4 } from 'uuid'
 import {
   AmountCart,
   ConfirmProductCart,
@@ -13,6 +14,7 @@ import { X } from '@phosphor-icons/react'
 import { useCart } from '@/context/CartContext'
 import axios from 'axios'
 import { useState } from 'react'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 interface SideBarProps {
   fn: () => void
@@ -21,7 +23,7 @@ interface SideBarProps {
 export const SideBar = ({ fn }: SideBarProps) => {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
-  const { cart } = useCart()
+  const { cart, totalCart, removeProductCart } = useCart()
 
   async function handleBuyProduct() {
     try {
@@ -39,6 +41,7 @@ export const SideBar = ({ fn }: SideBarProps) => {
       alert('Falha ao redirecionar ao checkout')
     }
   }
+
   return (
     <ContainerSidebar>
       <button onClick={fn}>
@@ -47,15 +50,22 @@ export const SideBar = ({ fn }: SideBarProps) => {
       <h3>Sacola de compras</h3>
       <ProductsCart>
         {cart.map((product) => {
+          const totalProductWithAmout =
+            (product.amount * Number(product.price.replace(/[^0-9]/g, ''))) /
+            100
           return (
-            <ProductCart key={new Date().getTime()}>
+            <ProductCart key={uuidv4()}>
               <div>
                 <Image src={product.imageUrl} alt="" width={94} height={98} />
               </div>
               <div>
-                <h4>{product.name}</h4>
-                <span>{product.price}</span>
-                <button>Remover</button>
+                <h4>
+                  {product.amount}x {product.name}
+                </h4>
+                <span>{formatCurrency(totalProductWithAmout)}</span>
+                <button onClick={() => removeProductCart(product.id)}>
+                  Remover
+                </button>
               </div>
             </ProductCart>
           )
@@ -64,11 +74,11 @@ export const SideBar = ({ fn }: SideBarProps) => {
       <InfoCart>
         <AmountCart>
           <p>Quantidade</p>
-          <span>{cart.length} itens</span>
+          <span>{totalCart.amountProduct} itens</span>
         </AmountCart>
         <TotalCart>
           <p>Valor total</p>
-          <span>R$ 270,00</span>
+          <span>{formatCurrency(totalCart.total)}</span>
         </TotalCart>
         <ConfirmProductCart
           disabled={isCreatingCheckoutSession}
